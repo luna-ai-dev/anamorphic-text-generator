@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Type, Layers, ShieldCheck, ExternalLink } from 'lucide-react';
+import { Type, Layers, ExternalLink, RefreshCw } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 
 export default function AnamorphicTextGenerator() {
@@ -21,17 +21,22 @@ export default function AnamorphicTextGenerator() {
     if (!cardRef.current) return;
     setGenerating(true);
     try {
-      // Generate the image from the DOM element
+      // Create a dedicated wrapper to ensure the capture is clean
       const dataUrl = await htmlToImage.toPng(cardRef.current, {
         quality: 1,
-        pixelRatio: 2, // High resolution
+        pixelRatio: 2,
+        backgroundColor: '#ffffff',
       });
       
-      // Open in a new tab
       const newTab = window.open();
       if (newTab) {
-        newTab.document.write(`<img src="${dataUrl}" style="max-width:100%; height:auto;" />`);
+        newTab.document.write(`
+          <body style="margin:0; background:#f0f0f7; display:flex; align-items:center; justify-center; min-height:100vh;">
+            <img src="${dataUrl}" style="max-width:100%; height:auto; box-shadow:0 20px 50px rgba(0,0,0,0.1); border-radius:20px;" />
+          </body>
+        `);
         newTab.document.title = "Generated Secret Message";
+        newTab.document.close();
       }
     } catch (err) {
       console.error('Failed to generate image:', err);
@@ -41,7 +46,7 @@ export default function AnamorphicTextGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f0f7] text-slate-900 font-sans p-4 md:p-12 overflow-x-hidden selection:bg-sky-500/30">
+    <div className="min-h-screen bg-[#f0f0f7] text-slate-900 font-sans p-4 md:p-12 overflow-x-hidden">
       <main className="relative z-10 max-w-5xl mx-auto">
         <header className="mb-12 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -58,7 +63,6 @@ export default function AnamorphicTextGenerator() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Controls Column */}
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl">
               <h2 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-8 flex items-center gap-2">
@@ -100,23 +104,16 @@ export default function AnamorphicTextGenerator() {
             </div>
           </div>
 
-          {/* Canvas Preview Column */}
           <div className="lg:col-span-8">
-            {/* Wrapper for capture */}
             <div className="p-4 bg-white rounded-[3.5rem] shadow-2xl inline-block w-full">
-              <div ref={cardRef} className="bg-white rounded-[3rem] p-12 relative overflow-hidden aspect-[3/4] flex flex-col items-center justify-center border-0">
-                
-                {/* Card Header Decoration */}
+              <div ref={cardRef} className="bg-white rounded-[3rem] p-12 relative overflow-hidden aspect-[3/4] flex flex-col items-center justify-center border-0" style={{ width: '100%' }}>
                 <div className="absolute top-10 w-full text-center">
                   <p className="text-[#a03050] font-serif text-2xl font-medium">A secret message for you today...</p>
                 </div>
 
-                {/* THE ENCRYPTION CORE */}
                 <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
-                  
-                  {/* Layer 1: Vertical Stretch */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black"
                     style={{ 
                       fontSize: '14rem', 
                       transform: 'scaleY(16) scaleX(0.06)',
@@ -126,9 +123,8 @@ export default function AnamorphicTextGenerator() {
                     {texts.tilt0}
                   </div>
 
-                  {/* Layer 2: 45 Degree Left */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black"
                     style={{ 
                       fontSize: '11rem', 
                       transform: 'rotate(-45deg) scaleY(14) scaleX(0.04)',
@@ -138,9 +134,8 @@ export default function AnamorphicTextGenerator() {
                     {texts.tilt45L}
                   </div>
 
-                  {/* Layer 3: 45 Degree Right */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black"
                     style={{ 
                       fontSize: '11rem', 
                       transform: 'rotate(45deg) scaleY(14) scaleX(0.04)',
@@ -149,23 +144,20 @@ export default function AnamorphicTextGenerator() {
                   >
                     {texts.tilt45R}
                   </div>
-
                 </div>
 
-                {/* Card Footer Decoration */}
                 <div className="absolute bottom-10 w-full px-12 text-center">
                   <p className="text-[10px] text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto uppercase tracking-tighter">
                     Instruction: Hold card at a 5 degree angle from the horizontal... look in the 3 directions...
                   </p>
                 </div>
 
-                {/* Card Border */}
                 <div className="absolute inset-4 border-4 border-[#101040] pointer-events-none rounded-[2.2rem]" />
               </div>
             </div>
 
             <div className="mt-8 p-6 bg-slate-900 rounded-[2rem] text-slate-400 text-xs italic leading-relaxed border border-white/5">
-              "Click 'Open as Image' to generate a high-res PNG file. You can then save it, print it, or send it to friends to see if they can crack the code."
+              "Click 'Open as Image' to generate a high-res PNG file. This renders the hidden text into a flat image you can share."
             </div>
           </div>
         </div>
