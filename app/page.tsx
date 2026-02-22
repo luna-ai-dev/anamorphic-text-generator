@@ -1,18 +1,43 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Type, Download, Copy, RefreshCw, Layers, ShieldCheck } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Type, Layers, ShieldCheck, ExternalLink } from 'lucide-react';
+import * as htmlToImage from 'html-to-image';
 
 export default function AnamorphicTextGenerator() {
   const [texts, setTexts] = useState({
     tilt0: 'I LOVE',
     tilt45L: 'MY',
-    tilt45R: 'JOB',
-    tilt90: 'AI RULES'
+    tilt45R: 'JOB'
   });
+  const [generating, setGenerating] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (key: string, val: string) => {
     setTexts(prev => ({ ...prev, [key]: val }));
+  };
+
+  const handleOpenImage = async () => {
+    if (!cardRef.current) return;
+    setGenerating(true);
+    try {
+      // Generate the image from the DOM element
+      const dataUrl = await htmlToImage.toPng(cardRef.current, {
+        quality: 1,
+        pixelRatio: 2, // High resolution
+      });
+      
+      // Open in a new tab
+      const newTab = window.open();
+      if (newTab) {
+        newTab.document.write(`<img src="${dataUrl}" style="max-width:100%; height:auto;" />`);
+        newTab.document.title = "Generated Secret Message";
+      }
+    } catch (err) {
+      console.error('Failed to generate image:', err);
+    } finally {
+      setGenerating(false);
+    }
   };
 
   return (
@@ -25,9 +50,9 @@ export default function AnamorphicTextGenerator() {
             </div>
             <div>
               <h1 className="text-2xl font-black italic tracking-tighter text-slate-900">
-                SECRET.DECRYPT
+                SECRET.IMAGE
               </h1>
-              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.3em]">Multi-Axis Anamorphic Layering</p>
+              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.3em]">Exportable Multi-Axis Anamorphics</p>
             </div>
           </div>
         </header>
@@ -64,75 +89,83 @@ export default function AnamorphicTextGenerator() {
                 </div>
               </div>
 
-              <button className="w-full mt-10 bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-sm uppercase italic tracking-tighter shadow-lg active:scale-95">
-                 <ShieldCheck size={18} /> Generate Secret
+              <button 
+                onClick={handleOpenImage}
+                disabled={generating}
+                className="w-full mt-10 bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-sm uppercase italic tracking-tighter shadow-lg active:scale-95 disabled:opacity-50"
+              >
+                 {generating ? <RefreshCw className="animate-spin" size={18} /> : <ExternalLink size={18} />} 
+                 Open as Image
               </button>
             </div>
           </div>
 
           {/* Canvas Preview Column */}
           <div className="lg:col-span-8">
-            <div className="bg-white border border-slate-200 rounded-[3rem] p-12 shadow-2xl relative overflow-hidden aspect-[3/4] flex flex-col items-center justify-center">
-              
-              {/* Card Header Decoration */}
-              <div className="absolute top-10 w-full text-center">
-                <p className="text-[#a03050] font-serif text-xl font-medium">A secret message for you today...</p>
-              </div>
-
-              {/* THE ENCRYPTION CORE - The "Factor X" Fix */}
-              <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+            {/* Wrapper for capture */}
+            <div className="p-4 bg-white rounded-[3.5rem] shadow-2xl inline-block w-full">
+              <div ref={cardRef} className="bg-white rounded-[3rem] p-12 relative overflow-hidden aspect-[3/4] flex flex-col items-center justify-center border-0">
                 
-                {/* Layer 1: Vertical Stretch (Centered Cross) */}
-                <div 
-                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
-                  style={{ 
-                    fontSize: '12rem', 
-                    transform: 'scaleY(15) scaleX(0.08)',
-                    letterSpacing: '-0.05em'
-                  }}
-                >
-                  {texts.tilt0}
+                {/* Card Header Decoration */}
+                <div className="absolute top-10 w-full text-center">
+                  <p className="text-[#a03050] font-serif text-2xl font-medium">A secret message for you today...</p>
                 </div>
 
-                {/* Layer 2: 45 Degree Left Skew */}
-                <div 
-                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
-                  style={{ 
-                    fontSize: '10rem', 
-                    transform: 'rotate(-45deg) scaleY(12) scaleX(0.06)',
-                    letterSpacing: '-0.1em'
-                  }}
-                >
-                  {texts.tilt45L}
+                {/* THE ENCRYPTION CORE */}
+                <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+                  
+                  {/* Layer 1: Vertical Stretch */}
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    style={{ 
+                      fontSize: '14rem', 
+                      transform: 'scaleY(16) scaleX(0.06)',
+                      letterSpacing: '-0.05em'
+                    }}
+                  >
+                    {texts.tilt0}
+                  </div>
+
+                  {/* Layer 2: 45 Degree Left */}
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    style={{ 
+                      fontSize: '11rem', 
+                      transform: 'rotate(-45deg) scaleY(14) scaleX(0.04)',
+                      letterSpacing: '-0.1em'
+                    }}
+                  >
+                    {texts.tilt45L}
+                  </div>
+
+                  {/* Layer 3: 45 Degree Right */}
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                    style={{ 
+                      fontSize: '11rem', 
+                      transform: 'rotate(45deg) scaleY(14) scaleX(0.04)',
+                      letterSpacing: '-0.1em'
+                    }}
+                  >
+                    {texts.tilt45R}
+                  </div>
+
                 </div>
 
-                {/* Layer 3: 45 Degree Right Skew */}
-                <div 
-                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
-                  style={{ 
-                    fontSize: '10rem', 
-                    transform: 'rotate(45deg) scaleY(12) scaleX(0.06)',
-                    letterSpacing: '-0.1em'
-                  }}
-                >
-                  {texts.tilt45R}
+                {/* Card Footer Decoration */}
+                <div className="absolute bottom-10 w-full px-12 text-center">
+                  <p className="text-[10px] text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto uppercase tracking-tighter">
+                    Instruction: Hold card at a 5 degree angle from the horizontal... look in the 3 directions...
+                  </p>
                 </div>
 
+                {/* Card Border */}
+                <div className="absolute inset-4 border-4 border-[#101040] pointer-events-none rounded-[2.2rem]" />
               </div>
-
-              {/* Card Footer Decoration */}
-              <div className="absolute bottom-10 w-full px-12 text-center">
-                <p className="text-[9px] text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto uppercase tracking-tighter">
-                  Instruction: Hold card at a 5 degree angle from the horizontal... look in the 3 directions...
-                </p>
-              </div>
-
-              {/* Card Border */}
-              <div className="absolute inset-4 border-4 border-[#101040] pointer-events-none rounded-[2.2rem]" />
             </div>
 
             <div className="mt-8 p-6 bg-slate-900 rounded-[2rem] text-slate-400 text-xs italic leading-relaxed border border-white/5">
-              "To view correctly: Tilt your screen back almost flat and look from the bottom edge (0°), then rotate the phone/screen 45° and repeat."
+              "Click 'Open as Image' to generate a high-res PNG file. You can then save it, print it, or send it to friends to see if they can crack the code."
             </div>
           </div>
         </div>
