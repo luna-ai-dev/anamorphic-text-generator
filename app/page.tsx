@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Type, Download, Copy, RefreshCw, Layers } from 'lucide-react';
+import { Type, Download, Copy, RefreshCw, Layers, ShieldCheck } from 'lucide-react';
 
 export default function AnamorphicTextGenerator() {
   const [texts, setTexts] = useState({
-    tilt0: 'ANAMORPHIC',
-    tilt45L: 'SIDEWAYS',
-    tilt45R: 'STRETCHED',
-    tilt90: 'EXTREME'
+    tilt0: 'I LOVE',
+    tilt45L: 'MY',
+    tilt45R: 'JOB',
+    tilt90: 'AI RULES'
   });
 
   const handleChange = (key: string, val: string) => {
@@ -16,130 +16,123 @@ export default function AnamorphicTextGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-100 font-sans p-4 md:p-12 overflow-x-hidden selection:bg-sky-500/30">
-      {/* Background Effect */}
-      <div className="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(14,165,233,0.1),_transparent_70%)]" />
-      
-      <main className="relative z-10 max-w-6xl mx-auto">
-        <header className="mb-20">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-sky-500 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(14,165,233,0.4)] rotate-12">
-              <Type size={24} className="text-black" />
+    <div className="min-h-screen bg-[#f0f0f7] text-slate-900 font-sans p-4 md:p-12 overflow-x-hidden selection:bg-sky-500/30">
+      <main className="relative z-10 max-w-5xl mx-auto">
+        <header className="mb-12 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-xl rotate-3">
+              <Type size={20} className="text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-black italic tracking-tighter bg-gradient-to-r from-sky-400 to-indigo-500 bg-clip-text text-transparent">
-                STRETCH.VISION
+              <h1 className="text-2xl font-black italic tracking-tighter text-slate-900">
+                SECRET.DECRYPT
               </h1>
-              <p className="text-[10px] text-sky-500 font-bold uppercase tracking-[0.4em]">Anamorphic Text Engine</p>
+              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.3em]">Multi-Axis Anamorphic Layering</p>
             </div>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Controls Column */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-[2.5rem] shadow-2xl">
-              <h2 className="text-sm font-black uppercase tracking-widest text-slate-500 mb-8 flex items-center gap-2">
-                <Layers size={14} /> Control Panel
+            <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl">
+              <h2 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-8 flex items-center gap-2">
+                <Layers size={14} /> Message Layers
               </h2>
               
               <div className="space-y-6">
                 <div>
-                  <label className="text-[10px] font-black text-sky-500 uppercase mb-2 block tracking-widest">Normal (0°)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase mb-2 block tracking-widest">Vertical Layer (0°)</label>
                   <input 
                     type="text" value={texts.tilt0} onChange={e => handleChange('tilt0', e.target.value)}
-                    className="w-full bg-slate-950 border border-white/10 rounded-xl px-5 py-4 outline-none focus:border-sky-500/50 transition-all font-bold"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-slate-900"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-sky-500 uppercase mb-2 block tracking-widest">Tilt 45° Left</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase mb-2 block tracking-widest">Diagonal Left (45°L)</label>
                   <input 
                     type="text" value={texts.tilt45L} onChange={e => handleChange('tilt45L', e.target.value)}
-                    className="w-full bg-slate-950 border border-white/10 rounded-xl px-5 py-4 outline-none focus:border-sky-500/50 transition-all font-bold"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-slate-900"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-sky-500 uppercase mb-2 block tracking-widest">Tilt 45° Right</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase mb-2 block tracking-widest">Diagonal Right (45°R)</label>
                   <input 
                     type="text" value={texts.tilt45R} onChange={e => handleChange('tilt45R', e.target.value)}
-                    className="w-full bg-slate-950 border border-white/10 rounded-xl px-5 py-4 outline-none focus:border-sky-500/50 transition-all font-bold"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black text-sky-500 uppercase mb-2 block tracking-widest">Extreme (90°)</label>
-                  <input 
-                    type="text" value={texts.tilt90} onChange={e => handleChange('tilt90', e.target.value)}
-                    className="w-full bg-slate-950 border border-white/10 rounded-xl px-5 py-4 outline-none focus:border-sky-500/50 transition-all font-bold"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-slate-900"
                   />
                 </div>
               </div>
 
-              <div className="mt-12 flex gap-4">
-                <button className="flex-1 bg-white text-black font-black py-4 rounded-2xl hover:bg-sky-400 transition-colors flex items-center justify-center gap-2 text-sm uppercase italic tracking-tighter">
-                   Save Preset
-                </button>
-              </div>
+              <button className="w-full mt-10 bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2 text-sm uppercase italic tracking-tighter shadow-lg active:scale-95">
+                 <ShieldCheck size={18} /> Generate Secret
+              </button>
             </div>
           </div>
 
-          {/* Preview Column */}
-          <div className="lg:col-span-8 space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* 0 Degrees */}
-              <div className="group relative bg-[#0a0a0a] border border-white/[0.03] rounded-[2.5rem] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">Neutral View 0°</span>
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="text-4xl font-black italic tracking-tighter text-white">
-                    {texts.tilt0}
-                  </div>
-                </div>
+          {/* Canvas Preview Column */}
+          <div className="lg:col-span-8">
+            <div className="bg-white border border-slate-200 rounded-[3rem] p-12 shadow-2xl relative overflow-hidden aspect-[3/4] flex flex-col items-center justify-center">
+              
+              {/* Card Header Decoration */}
+              <div className="absolute top-10 w-full text-center">
+                <p className="text-[#a03050] font-serif text-xl font-medium">A secret message for you today...</p>
               </div>
 
-              {/* 45 Left */}
-              <div className="group relative bg-[#0a0a0a] border border-white/[0.03] rounded-[2.5rem] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">Anamorphic 45° Left</span>
-                <div className="flex-1 flex items-center justify-center">
-                  <div 
-                    className="text-6xl font-black italic tracking-tighter text-sky-400 uppercase leading-none"
-                    style={{ transform: 'skewX(-45deg) scaleY(0.5)' }}
-                  >
-                    {texts.tilt45L}
-                  </div>
+              {/* THE ENCRYPTION CORE - The "Factor X" Fix */}
+              <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+                
+                {/* Layer 1: Vertical Stretch (Centered Cross) */}
+                <div 
+                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                  style={{ 
+                    fontSize: '12rem', 
+                    transform: 'scaleY(15) scaleX(0.08)',
+                    letterSpacing: '-0.05em'
+                  }}
+                >
+                  {texts.tilt0}
                 </div>
+
+                {/* Layer 2: 45 Degree Left Skew */}
+                <div 
+                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                  style={{ 
+                    fontSize: '10rem', 
+                    transform: 'rotate(-45deg) scaleY(12) scaleX(0.06)',
+                    letterSpacing: '-0.1em'
+                  }}
+                >
+                  {texts.tilt45L}
+                </div>
+
+                {/* Layer 3: 45 Degree Right Skew */}
+                <div 
+                  className="absolute inset-0 flex items-center justify-center text-black font-serif font-black select-none"
+                  style={{ 
+                    fontSize: '10rem', 
+                    transform: 'rotate(45deg) scaleY(12) scaleX(0.06)',
+                    letterSpacing: '-0.1em'
+                  }}
+                >
+                  {texts.tilt45R}
+                </div>
+
               </div>
 
-              {/* 45 Right */}
-              <div className="group relative bg-[#0a0a0a] border border-white/[0.03] rounded-[2.5rem] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">Anamorphic 45° Right</span>
-                <div className="flex-1 flex items-center justify-center">
-                  <div 
-                    className="text-6xl font-black italic tracking-tighter text-indigo-400 uppercase leading-none"
-                    style={{ transform: 'skewX(45deg) scaleY(0.5)' }}
-                  >
-                    {texts.tilt45R}
-                  </div>
-                </div>
+              {/* Card Footer Decoration */}
+              <div className="absolute bottom-10 w-full px-12 text-center">
+                <p className="text-[9px] text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto uppercase tracking-tighter">
+                  Instruction: Hold card at a 5 degree angle from the horizontal... look in the 3 directions...
+                </p>
               </div>
 
-              {/* 90 Degrees */}
-              <div className="group relative bg-[#0a0a0a] border border-white/[0.03] rounded-[2.5rem] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">Compressed 90°</span>
-                <div className="flex-1 flex items-center justify-center">
-                  <div 
-                    className="text-8xl font-black italic tracking-tighter text-white uppercase leading-none opacity-50"
-                    style={{ transform: 'scaleY(0.1) scaleX(1.5)' }}
-                  >
-                    {texts.tilt90}
-                  </div>
-                </div>
-              </div>
+              {/* Card Border */}
+              <div className="absolute inset-4 border-4 border-[#101040] pointer-events-none rounded-[2.2rem]" />
             </div>
 
-            {/* Instruction Footer */}
-            <div className="p-8 border border-white/5 rounded-[2.5rem] bg-sky-500/5">
-                <p className="text-sm text-slate-500 italic leading-relaxed">
-                  "These perspectives are mathematically skewed to appear corrected when viewed from extreme angles. Use these for 3D pavement art, secret message decals, or brutalist graphic design."
-                </p>
+            <div className="mt-8 p-6 bg-slate-900 rounded-[2rem] text-slate-400 text-xs italic leading-relaxed border border-white/5">
+              "To view correctly: Tilt your screen back almost flat and look from the bottom edge (0°), then rotate the phone/screen 45° and repeat."
             </div>
           </div>
         </div>
@@ -147,7 +140,7 @@ export default function AnamorphicTextGenerator() {
 
       <style jsx global>{`
         body {
-          background-image: radial-gradient(circle at top right, rgba(14, 165, 233, 0.05), transparent 600px);
+          background-color: #f0f0f7;
         }
       `}</style>
     </div>
